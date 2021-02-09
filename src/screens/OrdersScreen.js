@@ -1,34 +1,59 @@
 import React from "react";
-import { View, Text } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  Alert,
+} from "react-native";
 import HeaderComponent from "../components/HeaderComponent";
 import Order from "../components/Order";
-import { Button } from "react-native-elements";
-import { MaterialIcons } from "@expo/vector-icons";
-import Icon from "react-native-vector-icons/FontAwesome";
+
 
 const OrderScreen = (props) => {
   return (
-    <View>
+    <View style={styles.MainContainer}>
       <HeaderComponent />
-      <Text>ORders</Text>
       <Order title={"Order 1"} location={"Mohammadpur"} userName={"Saad"} />
       <Order title={"order 2"} location={"Dhanmondi"} userName={"Afra"} />
-      <View>
-        <Button
-          buttonStyle={{
-            flexDirection: "row",
-            bottom: -5,
-            alignSelf: "stretch",
-            justifyContent: "space-between",
+      <TouchableOpacity
+        activeOpacity={0.5}
+        style={styles.TouchableOpacityStyle}
+      >
+        <Image
+          source={{
+            uri:
+              "https://reactnativecode.com/wp-content/uploads/2017/11/Floating_Button.png",
           }}
-          type="clear"
-          icon={
-            <MaterialIcons name="add-circle-outline" size={30} color="black" />
-          }
+          style={styles.FloatingButtonStyle}
         />
-      </View>
+      </TouchableOpacity>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  MainContainer: {
+    flex: 1,
+    backgroundColor: "#F5F5F5",
+  },
+
+  TouchableOpacityStyle: {
+    position: "absolute",
+    width: 50,
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    right: 30,
+    bottom: 30,
+  },
+
+  FloatingButtonStyle: {
+    resizeMode: "contain",
+    width: 50,
+    height: 50,
+  },
+});
 
 export default OrderScreen;
