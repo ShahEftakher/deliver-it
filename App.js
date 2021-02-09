@@ -2,15 +2,18 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import OrderScreen from "./src/screens/OrdersScreen";
+import OrderDeatils from "./src/screens/OrderDetailsScreen";
 
-const orderStack = createStackNavigator();
+
+const stack = createStackNavigator();
+const orderDetailsStack=createStackNavigator();
 
 function App() {
   return (
     <NavigationContainer>
-      <orderStack.Navigator>
-        <orderStack.Screen name="orders" component={OrderScreen} options={{headerShown:false}}/>
-      </orderStack.Navigator>
+      <stack.Navigator>
+        <stack.Screen name="orderDetails" component={OrderDeatils} options={{headerShown:false}}/>
+      </stack.Navigator>
     </NavigationContainer>
   );
 }

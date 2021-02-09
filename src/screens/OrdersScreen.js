@@ -36,7 +36,7 @@ const OrderScreen = (props) => {
 const styles = StyleSheet.create({
   MainContainer: {
     flex: 1,
-    backgroundColor: "#F5F5F5",
+    backgroundColor: "#ffcc80",
   },
 
   TouchableOpacityStyle: {
