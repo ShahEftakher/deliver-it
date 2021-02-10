@@ -4,6 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import OrderScreen from "./src/screens/OrdersScreen";
 import OrderDeatils from "./src/screens/OrderDetailsScreen";
 import AddOrder from "./src/screens/AddOrderScreen";
+import SignUpScreen from "./src/screens/SignUpScreen";
 
 
 const stack = createStackNavigator();
@@ -13,7 +14,7 @@ function App() {
   return (
     <NavigationContainer>
       <stack.Navigator>
-        <stack.Screen name="orderDetails" component={OrderDeatils} options={{headerShown:false}}/>
+        <stack.Screen name="orderDetails" component={SignUpScreen} options={{headerShown:false}}/>
       </stack.Navigator>
     </NavigationContainer>
   );
