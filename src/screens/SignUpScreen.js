@@ -3,14 +3,21 @@ import { ActivityIndicator, View, Text, StyleSheet } from "react-native";
 import { Input, Button, Card } from "react-native-elements";
 import { FontAwesome, Feather, AntDesign, Ionicons } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
+import * as firebase from "firebase";
+import "firebase/firestore";
+import { add } from "react-native-reanimated";
+import { Entypo } from "@expo/vector-icons";
+
 const SignUpScreen = ({ navigation }) => {
-  const [handle, setHandle] = useState("");
+  const [name, setname] = useState("");
   const [role, setRole] = useState("user");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [contact, setContact] = useState("");
+  const [address, setAddress] = useState("");
 
-  let userData = { handle, role, email, password, confirmPassword };
+  let userData = { name, role, email, password, confirmPassword };
   return (
     <View style={styles.authViewStyle}>
       <Card>
@@ -21,16 +28,16 @@ const SignUpScreen = ({ navigation }) => {
           leftIcon={<Ionicons name="ios-person" size={24} color="orange" />}
           placeholder="Name"
           onChangeText={(currentInput) => {
-            setHandle(currentInput);
+            setname(currentInput);
           }}
         />
 
         <Input
           placeholder="Contact"
           leftIcon={<AntDesign name="contacts" size={24} color="orange" />}
-          secureTextEntry={true}
+          secureTextEntry={false}
           onChangeText={(currentInput) => {
-            setConfirmPassword(currentInput);
+            setContact(currentInput);
           }}
         />
 
@@ -62,10 +69,10 @@ const SignUpScreen = ({ navigation }) => {
 
         <Input
           placeholder="Address"
-          leftIcon={<Feather name="key" size={24} color="orange" />}
+          leftIcon={<Entypo name="location-pin" size={24} color="orange" />}
           secureTextEntry={false}
           onChangeText={(currentInput) => {
-            setConfirmPassword(currentInput);
+            setAddress(currentInput);
           }}
         />
 
@@ -93,7 +100,44 @@ const SignUpScreen = ({ navigation }) => {
               icon={<AntDesign name="user" size={24} color="white" />}
               title="  Sign Up!"
               onPress={() => {
-                signUp(userData, navigation, uiDispatch);
+                if (
+                  name &&
+                  email &&
+                  password &&
+                  contact &&
+                  address &&
+                  role &&
+                  confirmPassword
+                ) {
+                  firebase
+                    .auth()
+                    .createUserWithEmailAndPassword(email, password)
+                    .then((userCreds) => {
+                      userCreds.user.updateProfile({ displayName: name });
+                      firebase
+                        .firestore()
+                        .collection("users")
+                        .doc(userCreds.user.uid)
+                        .set({
+                          name: name,
+                          email: email,
+                          address: address,
+                          contact: contact,
+                          role: role,
+                        })
+                        .then(() => {
+                          alert("Account Successfully created!");
+                        })
+                        .catch((error) => {
+                          alert("Error");
+                        });
+                    })
+                    .catch((error) => {
+                      alert(error);
+                    });
+                } else {
+                  alert("Fields cannot be empty");
+                }
               }}
             />
             <Button

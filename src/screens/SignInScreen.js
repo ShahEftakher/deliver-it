@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { ActivityIndicator, View, Text, StyleSheet } from "react-native";
 import { Input, Button, Card } from "react-native-elements";
 import { FontAwesome, Feather, AntDesign } from "@expo/vector-icons";
+import * as firebase from "firebase";
 
 const SignInScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -42,7 +43,16 @@ const SignInScreen = ({ navigation }) => {
               icon={<AntDesign name="login" size={24} color="white" />}
               title="  Sign In!"
               onPress={() => {
-                signIn(email, password, userDispatch, uiDispatch, dataDispatch);
+                firebase
+                  .auth()
+                  .signInWithEmailAndPassword(email, password)
+                  .then((userCreds)=>{
+                    console.log(userCreds.user.uid); //will be used to retrieve info from db
+                    alert("Log in succesful!")
+                  })
+                  .catch((error) => {
+                    alert(error);
+                  });
               }}
             />
             <Button

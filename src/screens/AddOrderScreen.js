@@ -8,6 +8,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 
 const AddOrder = () => {
+  // const []
   return (
     <View style={styles.viewStyleOuter}>
       <HeaderComponent />
