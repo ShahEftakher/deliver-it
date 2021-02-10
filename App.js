@@ -13,7 +13,7 @@ function App() {
   return (
     <NavigationContainer>
       <stack.Navigator>
-        <stack.Screen name="orderDetails" component={AddOrder} options={{headerShown:false}}/>
+        <stack.Screen name="orderDetails" component={OrderDeatils} options={{headerShown:false}}/>
       </stack.Navigator>
     </NavigationContainer>
   );

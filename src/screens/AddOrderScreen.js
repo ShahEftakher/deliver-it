@@ -25,7 +25,7 @@ const AddOrder = () => {
           leftIcon={<Entypo name="location-pin" size={24} color="black" />}
         ></Input>
         <Input
-          placeholder="Password"
+          placeholder="Desitnation"
           leftIcon={
             <FontAwesome name="location-arrow" size={24} color="black" />
           }

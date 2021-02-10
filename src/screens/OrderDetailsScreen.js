@@ -1,11 +1,12 @@
 import React from "react";
 import { Text, View, StyleSheet } from "react-native";
-import { Card } from "react-native-elements";
+import { Card,Button } from "react-native-elements";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import HeaderComponent from "../components/HeaderComponent";
 import { FontAwesome } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
+import { AntDesign } from '@expo/vector-icons';
 
 const OrderDeatils = (props) => {
   return (
@@ -46,6 +47,12 @@ const OrderDeatils = (props) => {
           <Text style={styles.textStyle}>Price: </Text>
           <Text style={styles.infoText}>New Text</Text>
         </View>
+        <Button
+          icon={<AntDesign name="checkcircleo" size={24} color="white" />}
+          title=" Accept"
+          type="solid"
+          buttonStyle={{backgroundColor:"red"}}
+        ></Button>
       </Card>
     </View>
   );
@@ -54,11 +61,11 @@ const OrderDeatils = (props) => {
 const styles = StyleSheet.create({
   viewStyleOuter: {
     flex: 1,
-    backgroundColor: "#ffcc80",
+    backgroundColor: "#ffe6e6",
     alignSelf: "baseline",
   },
   cardStyle: {
-    backgroundColor: "#ffff99",
+    backgroundColor: "#ffb3b3",
   },
   textStyle: {
     lineHeight: 80,
