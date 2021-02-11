@@ -8,10 +8,10 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import { AntDesign } from '@expo/vector-icons';
 
-const OrderDeatils = (props) => {
+const OrderDeatils = ({navigation}) => {
   return (
     <View style={styles.viewStyleOuter}>
-      <HeaderComponent />
+      <HeaderComponent navigation={navigation} />
       <Card containerStyle={styles.cardStyle}>
         <View style={styles.fieldStyle}>
           <FontAwesome name="user" size={24} color="black" />

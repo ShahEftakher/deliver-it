@@ -1,16 +1,9 @@
 import React from "react";
-import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
-import OrderScreen from "./src/screens/OrdersScreen";
-import OrderDeatils from "./src/screens/OrderDetailsScreen";
-import AddOrder from "./src/screens/AddOrderScreen";
-import SignUpScreen from "./src/screens/SignUpScreen";
-import SignInScreen from "./src/screens/SignInScreen";
-import ProfileScreen from "./src/screens/ProfileScreen";
 import * as firebase from "firebase";
-
-const stack = createStackNavigator();
-const orderDetailsStack = createStackNavigator();
+import AuthStackScreen from "./src/routes/AuthStack";
+import AppDrawerScreen from "./src/routes/AppDrawer";
+import { AuthContext, AuthProvider } from "./src/context/AuthContext";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDJQC4pKOJdEqmbzlI51gRN9CIlXBkyE7M",
@@ -21,21 +14,21 @@ const firebaseConfig = {
   appId: "1:335579030165:web:1465422c9f8a77991ab19c",
 };
 
-if(!firebase.apps.length){
+if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
 
 function App() {
   return (
-    <NavigationContainer>
-      <stack.Navigator>
-        <stack.Screen
-          name="orderDetails"
-          component={AddOrder}
-          options={{ headerShown: false }}
-        />
-      </stack.Navigator>
-    </NavigationContainer>
+    <AuthProvider>
+      <AuthContext.Consumer>
+        {(auth) => (
+          <NavigationContainer>
+            {auth.IsLoggedIn ? <AppDrawerScreen /> : <AuthStackScreen />}
+          </NavigationContainer>
+        )}
+      </AuthContext.Consumer>
+    </AuthProvider>
   );
 }
 

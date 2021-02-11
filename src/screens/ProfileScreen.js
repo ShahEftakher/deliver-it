@@ -21,7 +21,7 @@ const ProfileScreen = ({ navigation }) => {
   useEffect(() => {}, [reload]);
   return (
     <View>
-    <HeaderComponent/>
+    <HeaderComponent navigation={navigation} />
       <ScrollView
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />

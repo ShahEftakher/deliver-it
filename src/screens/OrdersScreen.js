@@ -10,16 +10,26 @@ import {
 import HeaderComponent from "../components/HeaderComponent";
 import Order from "../components/Order";
 
-
-const OrderScreen = (props) => {
+const OrderScreen = ({ navigation }) => {
   return (
     <View style={styles.MainContainer}>
-      <HeaderComponent />
-      <Order title={"Order 1"} location={"Mohammadpur"} userName={"Saad"} />
-      <Order title={"order 2"} location={"Dhanmondi"} userName={"Afra"} />
+      <HeaderComponent navigation={navigation} />
+      <Order
+        title={"Order 1"}
+        location={"Mohammadpur"}
+        userName={"Saad"}
+        navigation={navigation}
+      />
+      <Order
+        title={"order 2"}
+        location={"Dhanmondi"}
+        userName={"Afra"}
+        navigation={navigation}
+      />
       <TouchableOpacity
         activeOpacity={0.5}
         style={styles.TouchableOpacityStyle}
+        onPress={() => navigation.navigate("Add Order")}
       >
         <Image
           source={{
