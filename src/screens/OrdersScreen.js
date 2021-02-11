@@ -1,4 +1,5 @@
-import React from "react";
+import { auth } from "firebase";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   View,
@@ -9,37 +10,61 @@ import {
 } from "react-native";
 import HeaderComponent from "../components/HeaderComponent";
 import Order from "../components/Order";
+import { AuthContext } from "../context/AuthContext";
+import * as firebase from "firebase";
+import { FlatList } from "react-native-gesture-handler";
+import "firebase/firestore";
 
 const OrderScreen = ({ navigation }) => {
+  const [orders, setOrders] = useState([]);
+  const loadOrderUser = async () => {
+    firebase
+      .firestore()
+      .collection("orders")
+      .get()
+      .then((querySnapshot) => {
+        let temp_order = [];
+        querySnapshot.forEach((doc) => {
+          temp_order.push({
+            id: doc.id,
+            data: doc.data(),
+          });
+        });
+        setOrders(temp_order);
+      });
+  };
+
+  useEffect(() => {
+    loadOrderUser();
+  }, []);
+
   return (
-    <View style={styles.MainContainer}>
-      <HeaderComponent navigation={navigation} />
-      <Order
-        title={"Order 1"}
-        location={"Mohammadpur"}
-        userName={"Saad"}
-        navigation={navigation}
-      />
-      <Order
-        title={"order 2"}
-        location={"Dhanmondi"}
-        userName={"Afra"}
-        navigation={navigation}
-      />
-      <TouchableOpacity
-        activeOpacity={0.5}
-        style={styles.TouchableOpacityStyle}
-        onPress={() => navigation.navigate("Add Order")}
-      >
-        <Image
-          source={{
-            uri:
-              "https://reactnativecode.com/wp-content/uploads/2017/11/Floating_Button.png",
-          }}
-          style={styles.FloatingButtonStyle}
-        />
-      </TouchableOpacity>
-    </View>
+    <AuthContext.Consumer>
+      {(auth) => (
+        <View style={styles.MainContainer}>
+          <HeaderComponent navigation={navigation} />
+          <FlatList
+            data={orders}
+            renderItem={({ item }) => {
+              return <Order orderData={item} navigation={navigation} />;
+            }}
+          />
+          <TouchableOpacity
+            activeOpacity={0.5}
+            style={styles.TouchableOpacityStyle}
+            onPress={() => navigation.navigate("Add Order")}
+          >
+            <Image
+              source={{
+                uri:
+                  "https://reactnativecode.com/wp-content/uploads/2017/11/Floating_Button.png",
+              }}
+              style={styles.FloatingButtonStyle}
+            />
+          </TouchableOpacity>
+        </View>
+      )}
+    </AuthContext.Consumer>
   );
 };
 

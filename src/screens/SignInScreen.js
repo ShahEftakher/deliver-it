@@ -56,7 +56,6 @@ const SignInScreen = ({ navigation }) => {
                       .auth()
                       .signInWithEmailAndPassword(email, password)
                       .then((userCreds) => {
-                        console.log(userCreds.user.uid); //will be used to retrieve info from db
                         auth.setIsLoggedIn(true);
                         auth.setCurrentUser(userCreds.user);
                         alert("Log in succesful!");

@@ -7,6 +7,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { AuthContext } from "../context/AuthContext";
 import * as firebase from "firebase";
+import "firebase/firestore";
 
 const AddOrder = ({ navigation }) => {
   const [item, setItem] = useState("");
@@ -53,7 +54,7 @@ const AddOrder = ({ navigation }) => {
                 title="Add"
                 type="solid"
                 onPress={() => {
-                  console.log(auth);
+                  
                   if (item && pickup && destination) {
                     firebase
                       .firestore()

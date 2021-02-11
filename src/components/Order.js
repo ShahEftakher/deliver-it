@@ -4,15 +4,15 @@ import { Card, Avatar, Text } from "react-native-elements";
 import { Entypo } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 const Order = (props) => {
-  console.log(props);
   return (
     <TouchableOpacity
       onPress={() => {
-        props.navigation.navigate("Order datils");
+        let orderData=props.orderData;
+        props.navigation.navigate("Order datils",{orderData});
       }}
     >
       <Card>
-        <Card.Title>{props.title}</Card.Title>
+        <Card.Title>{props.orderData.data.item.toUpperCase()}</Card.Title>
         <View
           style={{
             flexDirection: "row",
@@ -26,7 +26,7 @@ const Order = (props) => {
             activeOpacity={1}
           />
           <Text h4Style={{ padding: 10 }} h4>
-            {props.userName}
+            {props.orderData.data.name}
           </Text>
         </View>
         <View
@@ -36,7 +36,7 @@ const Order = (props) => {
           }}
         >
           <Entypo name="location-pin" size={24} color="black" />
-          <Text>{props.location}</Text>
+          <Text>{props.orderData.data.pickup}</Text>
         </View>
       </Card>
     </TouchableOpacity>
