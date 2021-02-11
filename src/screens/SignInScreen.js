@@ -56,6 +56,21 @@ const SignInScreen = ({ navigation }) => {
                       .auth()
                       .signInWithEmailAndPassword(email, password)
                       .then((userCreds) => {
+                        (async function () {
+                          let userInfo;
+                          firebase
+                            .firestore()
+                            .collection("users")
+                            .doc(userCreds.user.uid)
+                            .get()
+                            .then((doc) => {
+                              userInfo = doc.data();
+                              auth.setUserInfo(userInfo);
+                            })
+                            .catch((error) => {
+                              alert(error);
+                            });
+                        })();
                         auth.setIsLoggedIn(true);
                         auth.setCurrentUser(userCreds.user);
                         alert("Log in succesful!");

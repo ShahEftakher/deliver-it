@@ -12,17 +12,17 @@ import HeaderComponent from "../components/HeaderComponent";
 import Order from "../components/Order";
 import { AuthContext } from "../context/AuthContext";
 import * as firebase from "firebase";
-import { FlatList } from "react-native-gesture-handler";
+import { FlatList, ScrollView } from "react-native-gesture-handler";
 import "firebase/firestore";
 
 const OrderScreen = ({ navigation }) => {
   const [orders, setOrders] = useState([]);
+
   const loadOrderUser = async () => {
     firebase
       .firestore()
       .collection("orders")
-      .get()
-      .then((querySnapshot) => {
+      .onSnapshot((querySnapshot) => {
         let temp_order = [];
         querySnapshot.forEach((doc) => {
           temp_order.push({
@@ -42,13 +42,16 @@ const OrderScreen = ({ navigation }) => {
     <AuthContext.Consumer>
       {(auth) => (
         <View style={styles.MainContainer}>
-          <HeaderComponent navigation={navigation} />
-          <FlatList
-            data={orders}
-            renderItem={({ item }) => {
-              return <Order orderData={item} navigation={navigation} />;
-            }}
-          />
+          <ScrollView>
+            <HeaderComponent navigation={navigation} />
+
+            <FlatList
+              data={orders}
+              renderItem={({ item }) => {
+                return <Order orderData={item} navigation={navigation} />;
+              }}
+            />
+          </ScrollView>
           <TouchableOpacity
             activeOpacity={0.5}
             style={styles.TouchableOpacityStyle}

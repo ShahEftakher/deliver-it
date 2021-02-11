@@ -65,6 +65,7 @@ const AddOrder = ({ navigation }) => {
                         item: item,
                         pickup: pickup,
                         destination: destination,
+                        phoneNumber: auth.userInfo.contact,
                       })
                       .then(() => {
                         alert("Order placed!");

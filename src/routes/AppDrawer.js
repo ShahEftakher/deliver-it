@@ -1,19 +1,53 @@
-import React from 'react'
-import { createDrawerNavigator } from '@react-navigation/drawer'
-// import AppStackScreen from './AppStack'
-// import Profile from '../screens/Profile'
-import OrderScreen from '../screens/OrdersScreen'
-import ProfileScreen from '../screens/ProfileScreen'
-import AppStackScreen from './AppStack'
+import React from "react";
+import {
+  createDrawerNavigator,
+  DrawerContentScrollView,
+  DrawerItemList,
+  DrawerItem,
+} from "@react-navigation/drawer";
+import OrderScreen from "../screens/OrdersScreen";
+import ProfileScreen from "../screens/ProfileScreen";
+import AppStackScreen from "./AppStack";
+import { AuthContext } from "../context/AuthContext";
+import * as firebase from "firebase";
 
-const AppDrawer = createDrawerNavigator()
+const AppDrawer = createDrawerNavigator();
 
 const AppDrawerScreen = () => {
   return (
-    <AppDrawer.Navigator>
-      <AppDrawer.Screen name='Home' component={AppStackScreen} />
-    </AppDrawer.Navigator>
-  )
-}
+    <AuthContext.Consumer>
+      {(auth) => (
+        <AppDrawer.Navigator
+          initialRouteName="Home"
+          drawerContent={(props) => {
+            return (
+              <DrawerContentScrollView {...props}>
+                <DrawerItemList {...props} />
+                <DrawerItem
+                  label="Logout"
+                  onPress={() =>
+                    firebase
+                      .auth()
+                      .signOut()
+                      .then(() => {
+                        auth.setIsLoggedIn(false);
+                        auth.setCurrentUser({});
+                        auth.setUserInfo({});
+                      })
+                      .catch((error) => {
+                        alert(error);
+                      })
+                  }
+                />
+              </DrawerContentScrollView>
+            );
+          }}
+        >
+          <AppDrawer.Screen name="Home" component={AppStackScreen} />
+        </AppDrawer.Navigator>
+      )}
+    </AuthContext.Consumer>
+  );
+};
 
-export default AppDrawerScreen
+export default AppDrawerScreen;
