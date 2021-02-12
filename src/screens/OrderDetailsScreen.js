@@ -14,6 +14,7 @@ import * as firebase from "firebase";
 import "firebase/firestore";
 import { Feather } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
+import { SimpleLineIcons } from "@expo/vector-icons";
 
 const OrderDeatils = (props) => {
   console.log(props);
@@ -57,18 +58,29 @@ const OrderDeatils = (props) => {
                 transparent={true}
                 visible={showModal}
                 onRequestClose={() => {
-                  Alert.alert("Modal has been closed.");
                   setShowModal(!showModal);
                 }}
               >
                 <View style={styles.centeredView}>
                   <View style={styles.modalView}>
-                    <Text style={styles.modalText}>Hello World!</Text>
+                    <SimpleLineIcons name="call-out" size={24} color="black" />
                     <Pressable
                       style={[styles.button, styles.buttonClose]}
-                      onPress={() => setShowModal(!showModal)}
+                      onPress={() => {
+                        let phoneNumber = orderData.courierNumber;
+                        const args = {
+                          number: phoneNumber,
+                          prompt: true,
+                        };
+                        call(args).catch((error) => {
+                          alert(error);
+                        });
+                        setShowModal(!showModal);
+                      }}
                     >
-                      <Text style={styles.textStyleApp}>Hide Modal</Text>
+                      <Text style={styles.textStyle}>
+                        {"Call: " + orderData.pickedBy}
+                      </Text>
                     </Pressable>
                   </View>
                 </View>
@@ -112,7 +124,7 @@ const OrderDeatils = (props) => {
                       .update({
                         pickedBy: auth.CurrentUser.displayName,
                         isPicked: true,
-                        courierNumber: auth.userInfo.contact
+                        courierNumber: auth.userInfo.contact,
                       })
                       .then(() => {
                         alert("Accpeted!");
@@ -194,9 +206,10 @@ const styles = StyleSheet.create({
   },
   modalView: {
     margin: 20,
-    backgroundColor: "white",
+    backgroundColor: "#ffe6e6",
     borderRadius: 20,
     padding: 35,
+    opacity: 100,
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
@@ -211,7 +224,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 10,
     elevation: 2,
-    top:5
+    top: 5,
   },
   buttonOpen: {
     backgroundColor: "#F194FF",
