@@ -20,7 +20,7 @@ const AddOrder = ({ navigation }) => {
           <HeaderComponent navigation={navigation} />
           <View style={{ flex: 1, justifyContent: "center" }}>
             <Card>
-              <Card.Title>Welcome to BlogApp</Card.Title>
+              <Card.Title>Add Order</Card.Title>
               <Card.Divider></Card.Divider>
               <Input
                 placeholder="Item"
@@ -67,7 +67,7 @@ const AddOrder = ({ navigation }) => {
                         phoneNumber: auth.userInfo.contact,
                         pickedBy: "",
                         isPicked: false,
-                        status: "Pending"
+                        isDelivered: false,
                       })
                       .then(() => {
                         alert("Order placed!");

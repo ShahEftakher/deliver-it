@@ -7,11 +7,24 @@ const Order = (props) => {
   return (
     <TouchableOpacity
       onPress={() => {
-        let orderData=props.orderData;
-        props.navigation.navigate("Order datils",{orderData});
+        let orderData = props.orderData;
+        props.navigation.navigate("Order datils", { orderData });
       }}
     >
-      <Card>
+      <Card
+        containerStyle={{
+          borderRadius: 10,
+          marginTop: 10,
+          shadowOffset: {
+            width: 0,
+            height: 2,
+          },
+          shadowOpacity: 0.25,
+          shadowRadius: 6,
+          elevation: 7,
+          marginBottom: 10,
+        }}
+      >
         <Card.Title>{props.orderData.data.item.toUpperCase()}</Card.Title>
         <View
           style={{

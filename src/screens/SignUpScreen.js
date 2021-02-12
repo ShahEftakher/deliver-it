@@ -22,12 +22,25 @@ const SignUpScreen = ({ navigation }) => {
   return (
     <ScrollView>
       <View style={styles.authViewStyle}>
-        <Card>
-          <Card.Title>Welcome to Deliver-it</Card.Title>
+        <Card
+          containerStyle={{
+            borderRadius: 10,
+            marginTop: 20,
+            shadowOffset: {
+              width: 0,
+              height: 2,
+            },
+            shadowOpacity: 0.25,
+            shadowRadius: 6,
+            elevation: 7,
+            marginBottom: 10,
+          }}
+        >
+          <Card.Title>Deliver-it</Card.Title>
           <Card.Divider />
 
           <Input
-            leftIcon={<Ionicons name="ios-person" size={24} color="orange" />}
+            leftIcon={<Ionicons name="ios-person" size={24} color="red" />}
             placeholder="Name"
             onChangeText={(currentInput) => {
               setname(currentInput);
@@ -36,7 +49,7 @@ const SignUpScreen = ({ navigation }) => {
 
           <Input
             placeholder="Contact"
-            leftIcon={<AntDesign name="contacts" size={24} color="orange" />}
+            leftIcon={<AntDesign name="contacts" size={24} color="red" />}
             secureTextEntry={false}
             onChangeText={(currentInput) => {
               setContact(currentInput);
@@ -44,7 +57,7 @@ const SignUpScreen = ({ navigation }) => {
           />
 
           <Input
-            leftIcon={<FontAwesome name="envelope" size={24} color="orange" />}
+            leftIcon={<FontAwesome name="envelope" size={24} color="red" />}
             placeholder="E-mail Address"
             onChangeText={(currentInput) => {
               setEmail(currentInput);
@@ -53,7 +66,7 @@ const SignUpScreen = ({ navigation }) => {
 
           <Input
             placeholder="Password"
-            leftIcon={<Feather name="key" size={24} color="orange" />}
+            leftIcon={<Feather name="key" size={24} color="red" />}
             secureTextEntry={true}
             onChangeText={(currentInput) => {
               setPassword(currentInput);
@@ -62,7 +75,7 @@ const SignUpScreen = ({ navigation }) => {
 
           <Input
             placeholder="Confirm Password"
-            leftIcon={<Feather name="key" size={24} color="orange" />}
+            leftIcon={<Feather name="key" size={24} color="red" />}
             secureTextEntry={true}
             onChangeText={(currentInput) => {
               setConfirmPassword(currentInput);
@@ -71,7 +84,7 @@ const SignUpScreen = ({ navigation }) => {
 
           <Input
             placeholder="Address"
-            leftIcon={<Entypo name="location-pin" size={24} color="orange" />}
+            leftIcon={<Entypo name="location-pin" size={24} color="red" />}
             secureTextEntry={false}
             onChangeText={(currentInput) => {
               setAddress(currentInput);
@@ -79,7 +92,7 @@ const SignUpScreen = ({ navigation }) => {
           />
 
           <View style={{ flexDirection: "row", margin: 10 }}>
-            <Ionicons name="ios-school" size={24} color="orange" />
+            <Ionicons name="ios-school" size={24} color="red" />
             <Picker
               selectedValue={role}
               style={{ height: 28, width: 120, marginLeft: 10 }}
@@ -105,6 +118,7 @@ const SignUpScreen = ({ navigation }) => {
               <Button
                 icon={<AntDesign name="user" size={24} color="white" />}
                 title="  Sign Up!"
+                buttonStyle={{backgroundColor:"red"}}
                 onPress={() => {
                   if (
                     name &&
@@ -149,8 +163,9 @@ const SignUpScreen = ({ navigation }) => {
               />
               <Button
                 type="clear"
-                icon={<AntDesign name="login" size={24} color="dodgerblue" />}
+                icon={<AntDesign name="login" size={24} color="red" />}
                 title="  Already have an account?"
+                titleStyle={{color:"red"}}
                 onPress={() => {
                   navigation.navigate("SignIn");
                 }}

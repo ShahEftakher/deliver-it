@@ -20,6 +20,8 @@ const OrderDeatils = (props) => {
   console.log(props);
   const orderData = props.route.params.orderData.data;
   const [showModal, setShowModal] = useState(false);
+  const [isPicked, setIsPicked] = useState(orderData.isPicked);
+  const [btnStatus, setBtnStatus] = useState(orderData.isDelivered);
   return (
     <AuthContext.Consumer>
       {(auth) => (
@@ -107,8 +109,7 @@ const OrderDeatils = (props) => {
                 <Text style={styles.textStyleApp}>Price: </Text>
                 <Text style={styles.infoText}>{" calculate function"}</Text>
               </View>
-              {auth.userInfo.role === "deliveryMan" &&
-              !auth.userInfo.isPicked ? (
+              {auth.userInfo.role === "deliveryMan" && !isPicked ? (
                 <Button
                   icon={
                     <AntDesign name="checkcircleo" size={24} color="white" />
@@ -128,6 +129,8 @@ const OrderDeatils = (props) => {
                       })
                       .then(() => {
                         alert("Accpeted!");
+                        setIsPicked(true);
+                        props.navigation.navigate("Home Tab");
                       })
                       .catch((error) => {
                         alert(error);
@@ -147,7 +150,8 @@ const OrderDeatils = (props) => {
                       <Text style={styles.infoText}>{orderData.pickedBy}</Text>
                     </View>
                   </TouchableOpacity>
-                  {auth.userInfo.role === "deliveryMan" ? (
+                  {auth.userInfo.role === "deliveryMan" &&
+                  auth.userInfo.name === orderData.pickedBy ? (
                     <Button
                       icon={
                         <Ionicons
@@ -158,8 +162,22 @@ const OrderDeatils = (props) => {
                       }
                       title=" Delivered"
                       type="solid"
+                      disabled={btnStatus}
                       buttonStyle={{ backgroundColor: "red" }}
-                      onPress={() => {}}
+                      onPress={() => {
+                        firebase
+                          .firestore()
+                          .collection("orders")
+                          .doc(props.route.params.orderData.id)
+                          .update({ isDelivered: true })
+                          .then(() => {
+                            alert("Delivered");
+                          })
+                          .catch((error) => {
+                            alert(error);
+                          });
+                        setBtnStatus(true);
+                      }}
                     ></Button>
                   ) : null}
                 </View>
@@ -180,6 +198,16 @@ const styles = StyleSheet.create({
   },
   cardStyle: {
     backgroundColor: "#ffb3b3",
+    borderRadius: 10,
+    marginTop: 1,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 6,
+    elevation: 7,
+    marginBottom: 10,
   },
   textStyleApp: {
     lineHeight: 80,

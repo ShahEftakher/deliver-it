@@ -26,13 +26,24 @@ const HeaderComponent = (props) => {
               size={34}
               color="white"
               onPress={() => {
-                let userInfo=auth.userInfo;
-                let currentUser=auth.currentUser;
+                let userInfo = auth.userInfo;
+                let currentUser = auth.currentUser;
                 props.navigation.navigate("Profile", userInfo, currentUser);
               }}
             />
           }
           backgroundColor={"#ff0000"}
+          containerStyle={{
+            marginTop: 10,
+            shadowOffset: {
+              width: 0,
+              height: 2,
+            },
+            shadowOpacity: 0.25,
+            shadowRadius: 6,
+            elevation: 7,
+            marginBottom: 10,
+          }}
         />
       )}
     </AuthContext.Consumer>

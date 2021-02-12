@@ -21,11 +21,24 @@ const ProfileScreen = (props) => {
   return (
     <AuthContext.Consumer>
       {(auth) => (
-        <View>
+        <View style={{ backgroundColor: "#ffe6e6", flex: 1 }}>
           <HeaderComponent navigation={props.navigation} />
           <ScrollView>
             <View>
-              <Card>
+              <Card
+                containerStyle={{
+                  borderRadius: 10,
+                  marginTop: 50,
+                  shadowOffset: {
+                    width: 0,
+                    height: 2,
+                  },
+                  shadowOpacity: 0.25,
+                  shadowRadius: 6,
+                  elevation: 7,
+                  marginBottom: 10,
+                }}
+              >
                 <View style={{ alignItems: "center" }}>
                   <Avatar
                     rounded
@@ -34,30 +47,29 @@ const ProfileScreen = (props) => {
                     onPress={() => console.log("Works!")}
                     containerStyle={{
                       flex: 2,
-                      marginLeft: 10,
+                      marginLeft: 8,
                       marginTop: 50,
-                      backgroundColor: "blue",
+                      marginBottom: 10,
+                      backgroundColor: "red",
+                      shadowOffset: {
+                        width: 0,
+                        height: 2,
+                      },
+                      shadowOpacity: 0.25,
+                      shadowRadius: 10,
+                      elevation: 7,
                     }}
                   />
+                  <Text style={styles.roleStyle}>
+                    {userInfo.role.toUpperCase()}
+                  </Text>
+                  <Text></Text>
                 </View>
                 <Text style={styles.textStyle}>Name : {userInfo.name}</Text>
                 <Text style={styles.textStyle}>Email: {userInfo.email}</Text>
-                <TouchableOpacity
-                  onPress={() => {
-                    let phoneNumber = userInfo.contact;
-                    const args = {
-                      number: phoneNumber,
-                      prompt: true,
-                    };
-                    call(args).catch((error) => {
-                      alert(error);
-                    });
-                  }}
-                >
-                  <Text style={styles.textStyle}>
-                    Phone: {userInfo.contact}
-                  </Text>
-                </TouchableOpacity>
+                <Text style={styles.textStyle}>Phone: {userInfo.contact}</Text>
+                <Text></Text>
+                <Text></Text>
               </Card>
             </View>
           </ScrollView>
@@ -71,6 +83,11 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: "darkblue",
     paddingVertical: 10,
+    marginTop: 15,
+  },
+  roleStyle: {
+    fontSize: 20,
+    fontFamily: "sans-serif-condensed",
   },
 });
 export default ProfileScreen;

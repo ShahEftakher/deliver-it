@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { ActivityIndicator, View, Text, StyleSheet } from "react-native";
-import { Input, Button, Card } from "react-native-elements";
+import { Input, Button, Card, colors } from "react-native-elements";
 import { FontAwesome, Feather, AntDesign } from "@expo/vector-icons";
 import * as firebase from "firebase";
 import { AuthContext } from "../context/AuthContext";
@@ -13,12 +13,25 @@ const SignInScreen = ({ navigation }) => {
     <AuthContext.Consumer>
       {(auth) => (
         <View style={styles.authViewStyle}>
-          <Card>
-            <Card.Title>Welcome to Deliver-it</Card.Title>
+          <Card
+            containerStyle={{
+              borderRadius: 10,
+              marginTop: 20,
+              shadowOffset: {
+                width: 0,
+                height: 2,
+              },
+              shadowOpacity: 0.25,
+              shadowRadius: 6,
+              elevation: 7,
+              marginBottom: 10,
+            }}
+          >
+            <Card.Title>Deliver-it</Card.Title>
             <Card.Divider />
             <Input
               leftIcon={
-                <FontAwesome name="envelope" size={24} color="orange" />
+                <FontAwesome name="envelope" size={24} color="red" />
               }
               placeholder="E-mail Address"
               onChangeText={(currentInput) => {
@@ -28,7 +41,7 @@ const SignInScreen = ({ navigation }) => {
 
             <Input
               placeholder="Password"
-              leftIcon={<Feather name="key" size={24} color="orange" />}
+              leftIcon={<Feather name="key" size={24} color="red" />}
               secureTextEntry={true}
               onChangeText={(currentInput) => {
                 setPassword(currentInput);
@@ -51,6 +64,7 @@ const SignInScreen = ({ navigation }) => {
                 <Button
                   icon={<AntDesign name="login" size={24} color="white" />}
                   title="  Sign In!"
+                  buttonStyle={{ backgroundColor: "red" }}
                   onPress={() => {
                     firebase
                       .auth()
@@ -82,8 +96,9 @@ const SignInScreen = ({ navigation }) => {
                 />
                 <Button
                   type="clear"
-                  icon={<AntDesign name="user" size={24} color="dodgerblue" />}
+                  icon={<AntDesign name="user" size={24} color="red" />}
                   title="  Don't have an account?"
+                  titleStyle={{ color: "red" }}
                   onPress={() => {
                     navigation.navigate("SignUp");
                   }}
@@ -100,7 +115,7 @@ const styles = StyleSheet.create({
   authViewStyle: {
     flex: 1,
     justifyContent: "center",
-    backgroundColor: "orange",
+    backgroundColor: "#ffe6e6",
   },
 });
 export default SignInScreen;
