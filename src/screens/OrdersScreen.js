@@ -52,7 +52,7 @@ const OrderScreen = ({ navigation }) => {
               }}
             />
           </ScrollView>
-          <TouchableOpacity
+          {auth.userInfo.role === "user" ? (<TouchableOpacity
             activeOpacity={0.5}
             style={styles.TouchableOpacityStyle}
             onPress={() => navigation.navigate("Add Order")}
@@ -64,7 +64,7 @@ const OrderScreen = ({ navigation }) => {
               }}
               style={styles.FloatingButtonStyle}
             />
-          </TouchableOpacity>
+          </TouchableOpacity>): null}
         </View>
       )}
     </AuthContext.Consumer>

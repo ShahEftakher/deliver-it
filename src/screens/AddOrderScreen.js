@@ -54,7 +54,6 @@ const AddOrder = ({ navigation }) => {
                 title="Add"
                 type="solid"
                 onPress={() => {
-                  
                   if (item && pickup && destination) {
                     firebase
                       .firestore()
@@ -66,6 +65,9 @@ const AddOrder = ({ navigation }) => {
                         pickup: pickup,
                         destination: destination,
                         phoneNumber: auth.userInfo.contact,
+                        pickedBy: "",
+                        isPicked: false,
+                        status: "Pending"
                       })
                       .then(() => {
                         alert("Order placed!");

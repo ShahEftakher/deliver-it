@@ -1,3 +1,4 @@
+import { auth } from "firebase";
 import React, { useEffect, useContext, useState } from "react";
 import {
   ActivityIndicator,
@@ -8,71 +9,61 @@ import {
   RefreshControl,
   StyleSheet,
 } from "react-native";
-import { Card, Image, Text } from "react-native-elements";
+import { Card, Image, Text, Avatar } from "react-native-elements";
 import HeaderComponent from "../components/HeaderComponent";
+import { AuthContext } from "../context/AuthContext";
+import { FontAwesome } from "@expo/vector-icons";
+import call from "react-native-phone-call";
 
-const ProfileScreen = ({ navigation }) => {
-  const [refreshing, setRefreshing] = useState(false);
-  const [reload, setReload] = useState(false);
-  const onRefresh = () => {
-    reload ? setReload(false) : setReload(true);
-  };
-
-  useEffect(() => {}, [reload]);
+const ProfileScreen = (props) => {
+  const userInfo = props.route.params;
+  console.log(userInfo);
   return (
-    <View>
-    <HeaderComponent navigation={navigation} />
-      <ScrollView
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-      >
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "flex-end",
-          }}
-        >
-          <Image
-            source="https://picsum.photos/200/300"
-            style={{ width: 300, height: 400, marginLeft: 45 }}
-            PlaceholderContent={<ActivityIndicator />}
-          />
-        </View>
-        <Card>
-          {false ? (
-            <ActivityIndicator size="large" color="blue" animating={true} />
-          ) : (
-            <>
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <Text
-                  h4Style={{
-                    padding: 10,
-                    fontWeight: "bold",
-                    textAlign: "center",
+    <AuthContext.Consumer>
+      {(auth) => (
+        <View>
+          <HeaderComponent navigation={props.navigation} />
+          <ScrollView>
+            <View>
+              <Card>
+                <View style={{ alignItems: "center" }}>
+                  <Avatar
+                    rounded
+                    size="xlarge"
+                    icon={{ name: "user", type: "font-awesome" }}
+                    onPress={() => console.log("Works!")}
+                    containerStyle={{
+                      flex: 2,
+                      marginLeft: 10,
+                      marginTop: 50,
+                      backgroundColor: "blue",
+                    }}
+                  />
+                </View>
+                <Text style={styles.textStyle}>Name : {userInfo.name}</Text>
+                <Text style={styles.textStyle}>Email: {userInfo.email}</Text>
+                <TouchableOpacity
+                  onPress={() => {
+                    let phoneNumber = userInfo.contact;
+                    const args = {
+                      number: phoneNumber,
+                      prompt: true,
+                    };
+                    call(args).catch((error) => {
+                      alert(error);
+                    });
                   }}
-                  h4
-                >f</Text>
-              </View>
-              <Pressable
-                onLongPress={() => {
-                  console.log("Are you sure?");
-                }}
-              ></Pressable>
-              <Text style={styles.textStyle}>Name : Saad</Text>
-              <Text style={styles.textStyle}>Email: test@test.com</Text>
-              <Text style={styles.textStyle}>Phone: 01521101526</Text>
-            </>
-          )}
-        </Card>
-      </ScrollView>
-    </View>
+                >
+                  <Text style={styles.textStyle}>
+                    Phone: {userInfo.contact}
+                  </Text>
+                </TouchableOpacity>
+              </Card>
+            </View>
+          </ScrollView>
+        </View>
+      )}
+    </AuthContext.Consumer>
   );
 };
 const styles = StyleSheet.create({
