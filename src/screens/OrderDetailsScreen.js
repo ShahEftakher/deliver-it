@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Text, View, StyleSheet, Modal, Pressable, Alert } from "react-native";
 import { Card, Button } from "react-native-elements";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import HeaderComponent from "../components/HeaderComponent";
 import { FontAwesome } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
@@ -27,163 +27,171 @@ const OrderDeatils = (props) => {
       {(auth) => (
         <View style={styles.viewStyleOuter}>
           <HeaderComponent navigation={props.navigation} />
-          <View style={{ justifyContent: "center", flex: 1 }}>
-            <Card containerStyle={styles.cardStyle}>
-              <View style={styles.fieldStyle}>
-                <FontAwesome name="user" size={24} color="black" />
-                <Text style={styles.textStyleApp}>Name: </Text>
-                <Text style={styles.infoText}>{" " + orderData.name}</Text>
-              </View>
-
-              <TouchableOpacity
-                onPress={() => {
-                  let phoneNumber = orderData.phoneNumber;
-                  const args = {
-                    number: phoneNumber,
-                    prompt: true,
-                  };
-                  call(args).catch((error) => {
-                    alert(error);
-                  });
-                }}
-              >
+          <ScrollView>
+            <View style={{ justifyContent: "center", flex: 1 }}>
+              <Card containerStyle={styles.cardStyle}>
                 <View style={styles.fieldStyle}>
-                  <FontAwesome name="phone" size={24} color="black" />
-                  <Text style={styles.textStyleApp}>Phone: </Text>
-                  <Text style={styles.infoText}>
-                    {" " + orderData.phoneNumber}
-                  </Text>
+                  <FontAwesome name="user" size={24} color="black" />
+                  <Text style={styles.textStyleApp}>Name: </Text>
+                  <Text style={styles.infoText}>{" " + orderData.name}</Text>
                 </View>
-              </TouchableOpacity>
-              <Modal
-                animationType="fade"
-                transparent={true}
-                visible={showModal}
-                onRequestClose={() => {
-                  setShowModal(!showModal);
-                }}
-              >
-                <View style={styles.centeredView}>
-                  <View style={styles.modalView}>
-                    <SimpleLineIcons name="call-out" size={24} color="black" />
-                    <Pressable
-                      style={[styles.button, styles.buttonClose]}
-                      onPress={() => {
-                        let phoneNumber = orderData.courierNumber;
-                        const args = {
-                          number: phoneNumber,
-                          prompt: true,
-                        };
-                        call(args).catch((error) => {
-                          alert(error);
-                        });
-                        setShowModal(!showModal);
-                      }}
-                    >
-                      <Text style={styles.textStyle}>
-                        {"Call: " + orderData.pickedBy}
-                      </Text>
-                    </Pressable>
-                  </View>
-                </View>
-              </Modal>
-              <View style={styles.fieldStyle}>
-                <FontAwesome5 name="shopping-bag" size={24} color="black" />
-                <Text style={styles.textStyleApp}>Item: </Text>
-                <Text style={styles.infoText}>{" " + orderData.item}</Text>
-              </View>
-              <View style={styles.fieldStyle}>
-                <Entypo name="location-pin" size={24} color="black" />
-                <Text style={styles.textStyleApp}>Pickup location: </Text>
-                <Text style={styles.infoText}>{" " + orderData.pickup}</Text>
-              </View>
-              <View style={styles.fieldStyle}>
-                <FontAwesome name="location-arrow" size={24} color="black" />
-                <Text style={styles.textStyleApp}>Deliver location: </Text>
-                <Text style={styles.infoText}>
-                  {" " + orderData.destination}
-                </Text>
-              </View>
-              <View style={styles.fieldStyle}>
-                <FontAwesome5 name="money-check" size={20} color="black" />
-                <Text style={styles.textStyleApp}>Price: </Text>
-                <Text style={styles.infoText}>{" calculate function"}</Text>
-              </View>
-              {auth.userInfo.role === "deliveryMan" && !isPicked ? (
-                <Button
-                  icon={
-                    <AntDesign name="checkcircleo" size={24} color="white" />
-                  }
-                  title=" Accept"
-                  type="solid"
-                  buttonStyle={{ backgroundColor: "red" }}
+
+                <TouchableOpacity
                   onPress={() => {
-                    firebase
-                      .firestore()
-                      .collection("orders")
-                      .doc(props.route.params.orderData.id)
-                      .update({
-                        pickedBy: auth.CurrentUser.displayName,
-                        isPicked: true,
-                        courierNumber: auth.userInfo.contact,
-                      })
-                      .then(() => {
-                        alert("Accpeted!");
-                        setIsPicked(true);
-                        props.navigation.navigate("Home Tab");
-                      })
-                      .catch((error) => {
-                        alert(error);
-                      });
+                    let phoneNumber = orderData.phoneNumber;
+                    const args = {
+                      number: phoneNumber,
+                      prompt: true,
+                    };
+                    call(args).catch((error) => {
+                      alert(error);
+                    });
                   }}
-                ></Button>
-              ) : (
-                <View>
-                  <TouchableOpacity
-                    onPress={() => {
-                      setShowModal(true);
-                    }}
-                  >
-                    <View style={styles.fieldStyle}>
-                      <Feather name="user-check" size={24} color="black" />
-                      <Text style={styles.textStyleApp}>Picked By: </Text>
-                      <Text style={styles.infoText}>{orderData.pickedBy}</Text>
-                    </View>
-                  </TouchableOpacity>
-                  {auth.userInfo.role === "deliveryMan" &&
-                  auth.userInfo.name === orderData.pickedBy ? (
-                    <Button
-                      icon={
-                        <Ionicons
-                          name="checkmark-done-circle-outline"
-                          size={24}
-                          color="white"
-                        />
-                      }
-                      title=" Delivered"
-                      type="solid"
-                      disabled={btnStatus}
-                      buttonStyle={{ backgroundColor: "red" }}
-                      onPress={() => {
-                        firebase
-                          .firestore()
-                          .collection("orders")
-                          .doc(props.route.params.orderData.id)
-                          .update({ isDelivered: true })
-                          .then(() => {
-                            alert("Delivered");
-                          })
-                          .catch((error) => {
+                >
+                  <View style={styles.fieldStyle}>
+                    <FontAwesome name="phone" size={24} color="black" />
+                    <Text style={styles.textStyleApp}>Phone: </Text>
+                    <Text style={styles.infoText}>
+                      {" " + orderData.phoneNumber}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+                <Modal
+                  animationType="fade"
+                  transparent={true}
+                  visible={showModal}
+                  onRequestClose={() => {
+                    setShowModal(!showModal);
+                  }}
+                >
+                  <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                      <SimpleLineIcons
+                        name="call-out"
+                        size={24}
+                        color="black"
+                      />
+                      <Pressable
+                        style={[styles.button, styles.buttonClose]}
+                        onPress={() => {
+                          let phoneNumber = orderData.courierNumber;
+                          const args = {
+                            number: phoneNumber,
+                            prompt: true,
+                          };
+                          call(args).catch((error) => {
                             alert(error);
                           });
-                        setBtnStatus(true);
-                      }}
-                    ></Button>
-                  ) : null}
+                          setShowModal(!showModal);
+                        }}
+                      >
+                        <Text style={styles.textStyle}>
+                          {"Call: " + orderData.pickedBy}
+                        </Text>
+                      </Pressable>
+                    </View>
+                  </View>
+                </Modal>
+                <View style={styles.fieldStyle}>
+                  <FontAwesome5 name="shopping-bag" size={24} color="black" />
+                  <Text style={styles.textStyleApp}>Item: </Text>
+                  <Text style={styles.infoText}>{" " + orderData.item}</Text>
                 </View>
-              )}
-            </Card>
-          </View>
+                <View style={styles.fieldStyle}>
+                  <Entypo name="location-pin" size={24} color="black" />
+                  <Text style={styles.textStyleApp}>Pickup location: </Text>
+                  <Text style={styles.infoText}>{" " + orderData.pickup}</Text>
+                </View>
+                <View style={styles.fieldStyle}>
+                  <FontAwesome name="location-arrow" size={24} color="black" />
+                  <Text style={styles.textStyleApp}>Deliver location: </Text>
+                  <Text style={styles.infoText}>
+                    {" " + orderData.destination}
+                  </Text>
+                </View>
+                <View style={styles.fieldStyle}>
+                  <FontAwesome5 name="money-check" size={20} color="black" />
+                  <Text style={styles.textStyleApp}>Price: </Text>
+                  <Text style={styles.infoText}>{" calculate function"}</Text>
+                </View>
+                {auth.userInfo.role === "deliveryMan" && !isPicked ? (
+                  <Button
+                    icon={
+                      <AntDesign name="checkcircleo" size={24} color="white" />
+                    }
+                    title=" Accept"
+                    type="solid"
+                    buttonStyle={{ backgroundColor: "red" }}
+                    onPress={() => {
+                      firebase
+                        .firestore()
+                        .collection("orders")
+                        .doc(props.route.params.orderData.id)
+                        .update({
+                          pickedBy: auth.CurrentUser.displayName,
+                          isPicked: true,
+                          courierNumber: auth.userInfo.contact,
+                        })
+                        .then(() => {
+                          alert("Accpeted!");
+                          setIsPicked(true);
+                          props.navigation.navigate("Home Tab");
+                        })
+                        .catch((error) => {
+                          alert(error);
+                        });
+                    }}
+                  ></Button>
+                ) : (
+                  <View>
+                    <TouchableOpacity
+                      onPress={() => {
+                        setShowModal(true);
+                      }}
+                    >
+                      <View style={styles.fieldStyle}>
+                        <Feather name="user-check" size={24} color="black" />
+                        <Text style={styles.textStyleApp}>Picked By: </Text>
+                        <Text style={styles.infoText}>
+                          {orderData.pickedBy.toUpperCase()}
+                        </Text>
+                      </View>
+                    </TouchableOpacity>
+                    {auth.userInfo.role === "deliveryMan" &&
+                    auth.userInfo.name === orderData.pickedBy ? (
+                      <Button
+                        icon={
+                          <Ionicons
+                            name="checkmark-done-circle-outline"
+                            size={24}
+                            color="white"
+                          />
+                        }
+                        title=" Delivered"
+                        type="solid"
+                        disabled={btnStatus}
+                        buttonStyle={{ backgroundColor: "red" }}
+                        onPress={() => {
+                          firebase
+                            .firestore()
+                            .collection("orders")
+                            .doc(props.route.params.orderData.id)
+                            .update({ isDelivered: true })
+                            .then(() => {
+                              alert("Delivered");
+                            })
+                            .catch((error) => {
+                              alert(error);
+                            });
+                          setBtnStatus(true);
+                        }}
+                      ></Button>
+                    ) : null}
+                  </View>
+                )}
+              </Card>
+            </View>
+          </ScrollView>
         </View>
       )}
     </AuthContext.Consumer>

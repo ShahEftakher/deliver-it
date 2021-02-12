@@ -19,6 +19,7 @@ const AppDrawerScreen = () => {
       {(auth) => (
         <AppDrawer.Navigator
           initialRouteName="Home"
+          drawerStyle={{ backgroundColor: "#ffe6e6" }}
           drawerContent={(props) => {
             return (
               <DrawerContentScrollView {...props}>

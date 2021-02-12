@@ -87,7 +87,6 @@ const SignInScreen = ({ navigation }) => {
                         })();
                         auth.setIsLoggedIn(true);
                         auth.setCurrentUser(userCreds.user);
-                        alert("Log in succesful!");
                       })
                       .catch((error) => {
                         alert(error);

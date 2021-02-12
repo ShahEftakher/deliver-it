@@ -39,7 +39,7 @@ const Order = (props) => {
             activeOpacity={1}
           />
           <Text h4Style={{ padding: 10 }} h4>
-            {props.orderData.data.name}
+            {props.orderData.data.name.toUpperCase()}
           </Text>
         </View>
         <View

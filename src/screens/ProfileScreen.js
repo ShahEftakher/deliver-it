@@ -1,14 +1,6 @@
 import { auth } from "firebase";
 import React, { useEffect, useContext, useState } from "react";
-import {
-  ActivityIndicator,
-  Pressable,
-  TouchableOpacity,
-  View,
-  ScrollView,
-  RefreshControl,
-  StyleSheet,
-} from "react-native";
+import { View, ScrollView, StyleSheet } from "react-native";
 import { Card, Image, Text, Avatar } from "react-native-elements";
 import HeaderComponent from "../components/HeaderComponent";
 import { AuthContext } from "../context/AuthContext";
@@ -65,7 +57,9 @@ const ProfileScreen = (props) => {
                   </Text>
                   <Text></Text>
                 </View>
-                <Text style={styles.textStyle}>Name : {userInfo.name}</Text>
+                <Text style={styles.textStyle}>
+                  Name: {userInfo.name.toUpperCase()}
+                </Text>
                 <Text style={styles.textStyle}>Email: {userInfo.email}</Text>
                 <Text style={styles.textStyle}>Phone: {userInfo.contact}</Text>
                 <Text></Text>
@@ -80,13 +74,14 @@ const ProfileScreen = (props) => {
 };
 const styles = StyleSheet.create({
   textStyle: {
-    fontSize: 20,
+    fontSize: 22,
     color: "darkblue",
     paddingVertical: 10,
     marginTop: 15,
+    fontFamily: "sans-serif-condensed",
   },
   roleStyle: {
-    fontSize: 20,
+    fontSize: 25,
     fontFamily: "sans-serif-condensed",
   },
 });

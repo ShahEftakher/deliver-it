@@ -68,9 +68,9 @@ const AddOrder = ({ navigation }) => {
                         pickedBy: "",
                         isPicked: false,
                         isDelivered: false,
+                        orderTime: firebase.firestore.Timestamp.now()
                       })
                       .then(() => {
-                        alert("Order placed!");
                         navigation.navigate("Home Tab");
                       })
                       .catch((error) => {

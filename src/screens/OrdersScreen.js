@@ -22,6 +22,7 @@ const OrderScreen = ({ navigation }) => {
     firebase
       .firestore()
       .collection("orders")
+      .orderBy("orderTime", "desc")
       .onSnapshot((querySnapshot) => {
         let temp_order = [];
         querySnapshot.forEach((doc) => {
@@ -52,19 +53,21 @@ const OrderScreen = ({ navigation }) => {
               }}
             />
           </ScrollView>
-          {auth.userInfo.role === "user" ? (<TouchableOpacity
-            activeOpacity={0.5}
-            style={styles.TouchableOpacityStyle}
-            onPress={() => navigation.navigate("Add Order")}
-          >
-            <Image
-              source={{
-                uri:
-                  "https://reactnativecode.com/wp-content/uploads/2017/11/Floating_Button.png",
-              }}
-              style={styles.FloatingButtonStyle}
-            />
-          </TouchableOpacity>): null}
+          {auth.userInfo.role === "user" ? (
+            <TouchableOpacity
+              activeOpacity={0.5}
+              style={styles.TouchableOpacityStyle}
+              onPress={() => navigation.navigate("Add Order")}
+            >
+              <Image
+                source={{
+                  uri:
+                    "https://reactnativecode.com/wp-content/uploads/2017/11/Floating_Button.png",
+                }}
+                style={styles.FloatingButtonStyle}
+              />
+            </TouchableOpacity>
+          ) : null}
         </View>
       )}
     </AuthContext.Consumer>
@@ -74,7 +77,7 @@ const OrderScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   MainContainer: {
     flex: 1,
-    backgroundColor: "#ffcc80",
+    backgroundColor: "#ffe6e6",
   },
 
   TouchableOpacityStyle: {
